@@ -1,5 +1,9 @@
+import os
 import subprocess
 import sys
+
+FIREFOX_PATH 	= r'C:/Program Files (x86)/Mozilla Firefox/firefox'
+CHROME_PATH 	= r'C:/Users/{}/AppData/Local/Google/Chrome/Application/chrome'.format(os.getlogin())
 
 with open('accounts.txt') as f:
 	emails = [ line.strip('\n') for line in f.readlines() ]
@@ -13,11 +17,11 @@ with open('accounts.txt') as f:
 					url = None
 					if '-u' in sys.argv:
 						url = sys.argv[sys.argv.index('-u') + 1]
-					f.write(f"chrome --user-data-dir=C:/chrome-profiles/{username} --no-first-run --no-default-browser-check {url}")
+					f.write(f"\"{CHROME_PATH}\" --user-data-dir=C:/chrome-profiles/{username} --no-first-run --no-default-browser-check {url}")
 				else:
 					# creating sortcuts
-					f.write(f'firefox -p {username}')
-					subprocess.run(f'firefox -CreateProfile {username}', shell=True, check=True)
+					f.write(f'\"{FIREFOX_PATH}\" -p {username}')
+					subprocess.run(f'\"{FIREFOX_PATH}\" -CreateProfile {username}', shell=True, check=True)
 
 			except subprocess.CalledProcessError:
 				pass
